@@ -21,7 +21,7 @@ interface NeuroevolutionConstructor {
 	nbChild?: number;
 }
 
-export class NE {
+export class Neuroevolution {
 
   private aParams: NeuroevolutionConstructor;
   private generations: Generations;
