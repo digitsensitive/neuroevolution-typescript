@@ -5,9 +5,11 @@
 */
 
 import { Generations } from './Generations';
+import { Network } from './Network';
+import { Genome } from './Genome';
 
 interface NeuroevolutionConstructor {
-  network?: [][];
+  network?: number[][];
 	population?: number;
 	elitism?: number;
   randomBehaviour?: number;
@@ -24,12 +26,12 @@ export class Neuroevolution {
   private aParams: NeuroevolutionConstructor;
   private generations: Generations;
 
-  public getAParams(): NeuroevolutionConstructor { return aParams; }
+  public getAParams(): NeuroevolutionConstructor { return this.aParams; }
 
   constructor(_aParams: NeuroevolutionConstructor) {
 
     /* various factors and parameters (along with default values) */
-    this.aParams.network = _aParams.network || [1, [1], 1];         // Perceptron network structure (1 hidden // layer).
+    this.aParams.network = _aParams.network || [[1], [1], [1]];         // Perceptron network structure (1 hidden // layer).
     this.aParams.population = _aParams.population || 50;            // Population by generation.
     this.aParams.elitism = _aParams.elitism || 0.2;                 // Best networks kepts unchanged for the next generation (rate).
     this.aParams.randomBehaviour = _aParams.randomBehaviour || 0.2; // New random networks for the next generation (rate).
@@ -60,7 +62,7 @@ export class Neuroevolution {
 	/**
 	 * Create the next generation.
 	 */
-	private nextGeneration(): void {
+	private nextGeneration() {
 
 		var networks = [];
 
@@ -95,7 +97,7 @@ export class Neuroevolution {
 				let genomes = this.generations.getGenerations()[this.generations.getGenerations().length - 2].getGenomes();
 
         for (let i in genomes) {
-					delete genomes[i].network;
+					delete genomes[i];
 				}
 			}
 		}

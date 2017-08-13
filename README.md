@@ -9,6 +9,10 @@ Neuroevolution, or neuro-evolution, is a form of machine learning that uses evol
 This library has been greatly influenced by [xviniette](https://github.com/xviniette/FlappyLearning).
 My motivation was to rewrite it in TypeScript.
 
+## Usage
+
+`import * as Neuroevolution from './node_modules/neuroevolution-typescript/main';`
+
 ## Version
 
 0.0.1 (work in progress)

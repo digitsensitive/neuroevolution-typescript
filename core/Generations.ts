@@ -32,7 +32,7 @@ export class Generations {
    * @param  {[type]} _output  [Output layer]
    * @return {[type]}          [First Generation]
    */
-  public firstGeneration(_input, _hiddens, _output): [] {
+  public firstGeneration(_input?, _hiddens?, _output?) {
 
     /* FIXME input, hiddens, output unused */
     let out = [];
@@ -64,7 +64,7 @@ export class Generations {
 
     if (this.generations.length == 0) {
       /* need to create first generation */
-      return false;
+      return [];
     }
 
     let gen = this.generations[this.generations.length - 1].generateNextGeneration();

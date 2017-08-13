@@ -94,7 +94,7 @@ export class Network {
    * Apply network data (neurons and weights)
    * @param {[type]} _save [Copy of network data (neurons and weights)]
    */
-  private setSave(_save): void {
+  public setSave(_save): void {
 
     let previousNeurons = 0;
     let index = 0;

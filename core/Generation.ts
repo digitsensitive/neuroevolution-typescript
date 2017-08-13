@@ -27,13 +27,13 @@ export class Generation {
    * Add a genome to the generation.
    * @param {[type]} _genome [Genome to add]
    */
-  private addGenome(_genome): void {
+  public addGenome(_genome): void {
     /* locate position to insert Genome into, the gnomes should remain sorted */
 
     for (var i = 0; i < this.genomes.length; i++) {
 
       /* sort in descending order */
-      if (this.scoreSort < 0) {
+      if (this.ne.getAParams().scoreSort < 0) {
 
         if (_genome.score > this.genomes[i].getScore()) {
           break;
@@ -88,9 +88,9 @@ export class Generation {
 			/* perform mutation on some weights */
 			for (let i in data.network.weights) {
 
-				if (Math.random() <= this.mutationRate) {
+				if (Math.random() <= this.ne.getAParams().mutationRate) {
 
-					data.network.weights[i] += Math.random() * this.mutationRate * 2 - this.mutationRate;
+					data.network.weights[i] += Math.random() * this.ne.getAParams().mutationRate * 2 - this.ne.getAParams().mutationRate;
 
 				}
 
@@ -107,13 +107,13 @@ export class Generation {
   /**
    * Generate the next generation
    */
-  private generateNextGeneration(): [] {
+  public generateNextGeneration() {
 
 		let nexts = [];
 
-		for (let i = 0; i < Math.round(this.elitism * this.population); i++) {
+		for (let i = 0; i < Math.round(this.ne.getAParams().elitism * this.ne.getAParams().population); i++) {
 
-			if (nexts.length < this.population) {
+			if (nexts.length < this.ne.getAParams().population) {
 
         /* push a deep copy of ith Genome's Nethwork */
 				nexts.push(JSON.parse(JSON.stringify(this.genomes[i].getNetwork())));
@@ -121,7 +121,7 @@ export class Generation {
 			}
 		}
 
-		for (let i = 0; i < Math.round(this.randomBehaviour * this.population); i++) {
+		for (let i = 0; i < Math.round(this.ne.getAParams().randomBehaviour * this.ne.getAParams().population); i++) {
 
       let n = JSON.parse(JSON.stringify(this.genomes[0].getNetwork()));
 
@@ -129,7 +129,7 @@ export class Generation {
 				n.weights[k] = this.randomClamped();
 			}
 
-			if (nexts.length < this.population) {
+			if (nexts.length < this.ne.getAParams().population) {
 				nexts.push(n);
 			}
 
@@ -141,13 +141,13 @@ export class Generation {
 
 			for (let i = 0; i < max; i++) {
         /* create the children and push them to the nexts array */
-  			let childs = this.breed(this.genomes[i], this.genomes[max], (this.nbChild > 0 ? this.nbChild : 1));
+  			let childs = this.breed(this.genomes[i], this.genomes[max], (this.ne.getAParams().nbChild > 0 ? this.ne.getAParams().nbChild : 1));
 
 				for (let c in childs) {
 
 					nexts.push(childs[c].network);
 
-					if (nexts.length >= this.population) {
+					if (nexts.length >= this.ne.getAParams().population) {
 						/* Return once number of children is equal to the
 						 * population by generatino value */
 						return nexts;
