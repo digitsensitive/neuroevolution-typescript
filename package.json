@@ -1,0 +1,27 @@
+{
+  "name": "neuroevolution-typescript",
+  "version": "0.0.1",
+  "description": "Neuroevolution library in TypeScript",
+  "keywords": [
+    "Neuroevolution",
+    "Machine Learning",
+    "TypeScript"
+  ],
+  "bugs": {
+    "email": "digit.sensitivee@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Eric Kuhn <digit.sensitivee@gmail.com>",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digitsensitive/neuroevolution-typescript.git"
+  },
+  "homepage": "https://github.com/digitsensitive/neuroevolution-typescript#readme"
+}
