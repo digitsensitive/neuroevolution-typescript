@@ -1,1 +1,1 @@
-export { Neuroevolution } from './core/Neuroevolution'
+export { NE } from './core/Neuroevolution'

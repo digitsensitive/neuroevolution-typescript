@@ -9,7 +9,7 @@ import { Network } from './Network';
 import { Genome } from './Genome';
 
 interface NeuroevolutionConstructor {
-  network?: number[][];
+  network?: any[];
 	population?: number;
 	elitism?: number;
   randomBehaviour?: number;
@@ -21,7 +21,7 @@ interface NeuroevolutionConstructor {
 	nbChild?: number;
 }
 
-export class Neuroevolution {
+export class NE {
 
   private aParams: NeuroevolutionConstructor;
   private generations: Generations;
@@ -31,7 +31,7 @@ export class Neuroevolution {
   constructor(_aParams: NeuroevolutionConstructor) {
 
     /* various factors and parameters (along with default values) */
-    this.aParams.network = _aParams.network || [[1], [1], [1]];         // Perceptron network structure (1 hidden // layer).
+    this.aParams.network = _aParams.network || [1, [1], 1];         // Perceptron network structure (1 hidden // layer).
     this.aParams.population = _aParams.population || 50;            // Population by generation.
     this.aParams.elitism = _aParams.elitism || 0.2;                 // Best networks kepts unchanged for the next generation (rate).
     this.aParams.randomBehaviour = _aParams.randomBehaviour || 0.2; // New random networks for the next generation (rate).
