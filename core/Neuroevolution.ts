@@ -62,7 +62,7 @@ export class Neuroevolution {
 	/**
 	 * Create the next generation.
 	 */
-	private nextGeneration() {
+	public nextGeneration() {
 
 		var networks = [];
 
