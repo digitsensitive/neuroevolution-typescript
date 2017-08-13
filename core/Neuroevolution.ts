@@ -23,7 +23,7 @@ interface NeuroevolutionConstructor {
 
 export class Neuroevolution {
 
-  private aParams: NeuroevolutionConstructor;
+  private aParams: NeuroevolutionConstructor = {};
   private generations: Generations;
 
   public getAParams(): NeuroevolutionConstructor { return this.aParams; }
