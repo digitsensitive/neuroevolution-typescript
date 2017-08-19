@@ -15,4 +15,5 @@ My motivation was to rewrite it in TypeScript.
 
 ## Version
 
-0.0.1 (work in progress)
+0.0.2 (19.08.2017)
+- First release
