@@ -6,52 +6,40 @@
  */
 
 import { Generations } from "./Generations";
-import { Network } from "./Network";
 import { Genome } from "./Genome";
-
-interface NeuroevolutionConstructor {
-  network?: any[];
-  population?: number;
-  elitism?: number;
-  randomBehaviour?: number;
-  mutationRate?: number;
-  mutationRange?: number;
-  historic?: number;
-  lowHistoric?: boolean;
-  scoreSort?: number;
-  nbChild?: number;
-}
+import { INeuroevolutionConfig } from "./interfaces/neuroevolution-config.interface";
+import { Network } from "./neural network/Network";
 
 export class Neuroevolution {
-  private aParams: NeuroevolutionConstructor = {};
+  private parameters: INeuroevolutionConfig;
   private generations: Generations;
 
-  public getAParams(): NeuroevolutionConstructor {
-    return this.aParams;
+  public getParams(): INeuroevolutionConfig {
+    return this.parameters;
   }
 
-  constructor(_aParams: NeuroevolutionConstructor) {
-    /* various factors and parameters (along with default values) */
-    this.aParams.network = _aParams.network || [1, [1], 1]; // Perceptron network structure (1 hidden // layer).
-    this.aParams.population = _aParams.population || 50; // Population by generation.
-    this.aParams.elitism = _aParams.elitism || 0.2; // Best networks kepts unchanged for the next generation (rate).
-    this.aParams.randomBehaviour = _aParams.randomBehaviour || 0.2; // New random networks for the next generation (rate).
-    this.aParams.mutationRate = _aParams.mutationRate || 0.1; // Mutation rate on the weights of synapses.
-    this.aParams.mutationRange = _aParams.mutationRange || 0.5; // Interval of the mutation changes on the synapse weight.
-    this.aParams.historic = _aParams.historic || 0; // Latest generations saved.
-    this.aParams.lowHistoric = _aParams.lowHistoric || false; // Only save score (not the network).
-    this.aParams.scoreSort = _aParams.scoreSort || -1; // Sort order (-1 = desc, 1 = asc).
-    this.aParams.nbChild = _aParams.nbChild || 1; // Number of children by breeding.
+  constructor(config: INeuroevolutionConfig) {
+    // set basic neuroevolution class options
+    this.parameters.network = config.network || [1, [1], 1]; // Perceptron network structure (1 hidden // layer).
+    this.parameters.population = config.population || 50; // Population by generation.
+    this.parameters.elitism = config.elitism || 0.2; // Best networks kepts unchanged for the next generation (rate).
+    this.parameters.randomBehaviour = config.randomBehaviour || 0.2; // New random networks for the next generation (rate).
+    this.parameters.mutationRate = config.mutationRate || 0.1; // Mutation rate on the weights of synapses.
+    this.parameters.mutationRange = config.mutationRange || 0.5; // Interval of the mutation changes on the synapse weight.
+    this.parameters.historic = config.historic || 0; // Latest generations saved.
+    this.parameters.lowHistoric = config.lowHistoric || false; // Only save score (not the network).
+    this.parameters.scoreSort = config.scoreSort || -1; // Sort order (-1 = desc, 1 = asc).
+    this.parameters.nbChild = config.nbChild || 1; // Number of children by breeding.
 
     this.generations = new Generations(this);
   }
 
   /**
    * Override default options.
-   * @param {NeuroevolutionConstructor} _aParams [Return new object]
+   * @param {INeuroevolution} _aParams [Return new object]
    */
-  public set(_aParams: NeuroevolutionConstructor): void {
-    this.aParams = _aParams;
+  public set(params: INeuroevolutionConfig): void {
+    this.parameters = params;
   }
 
   /**
@@ -79,11 +67,11 @@ export class Neuroevolution {
     let nns = [];
     for (let i in networks) {
       let nn = new Network();
-      nn.setSave(networks[i]);
+      nn.loadNetworkWithData(networks[i]);
       nns.push(nn);
     }
 
-    if (this.aParams.lowHistoric) {
+    if (this.parameters.lowHistoric) {
       /* remove old Networks */
       if (this.generations.getGenerations().length >= 2) {
         let genomes = this.generations
@@ -96,18 +84,18 @@ export class Neuroevolution {
       }
     }
 
-    if (this.aParams.historic != -1) {
+    if (this.parameters.historic != -1) {
       /* Remove older generations */
       if (
         this.generations.getGenerations().length >
-        this.aParams.historic + 1
+        this.parameters.historic + 1
       ) {
         this.generations
           .getGenerations()
           .splice(
             0,
             this.generations.getGenerations().length -
-              (this.aParams.historic + 1)
+              (this.parameters.historic + 1)
           );
       }
     }

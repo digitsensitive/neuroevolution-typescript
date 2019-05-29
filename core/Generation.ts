@@ -32,7 +32,7 @@ export class Generation {
 
     for (var i = 0; i < this.genomes.length; i++) {
       /* sort in descending order */
-      if (this.ne.getAParams().scoreSort < 0) {
+      if (this.ne.getParams().scoreSort < 0) {
         if (_genome.score > this.genomes[i].getScore()) {
           break;
         }
@@ -73,10 +73,10 @@ export class Generation {
 
       /* perform mutation on some weights */
       for (let i in data.network.weights) {
-        if (Math.random() <= this.ne.getAParams().mutationRate) {
+        if (Math.random() <= this.ne.getParams().mutationRate) {
           data.network.weights[i] +=
-            Math.random() * this.ne.getAParams().mutationRate * 2 -
-            this.ne.getAParams().mutationRate;
+            Math.random() * this.ne.getParams().mutationRate * 2 -
+            this.ne.getParams().mutationRate;
         }
       }
 
@@ -95,12 +95,10 @@ export class Generation {
     for (
       let i = 0;
       i <
-      Math.round(
-        this.ne.getAParams().elitism * this.ne.getAParams().population
-      );
+      Math.round(this.ne.getParams().elitism * this.ne.getParams().population);
       i++
     ) {
-      if (nexts.length < this.ne.getAParams().population) {
+      if (nexts.length < this.ne.getParams().population) {
         /* push a deep copy of ith Genome's Nethwork */
         nexts.push(JSON.parse(JSON.stringify(this.genomes[i].getNetwork())));
       }
@@ -110,7 +108,7 @@ export class Generation {
       let i = 0;
       i <
       Math.round(
-        this.ne.getAParams().randomBehaviour * this.ne.getAParams().population
+        this.ne.getParams().randomBehaviour * this.ne.getParams().population
       );
       i++
     ) {
@@ -120,7 +118,7 @@ export class Generation {
         n.weights[k] = this.randomClamped();
       }
 
-      if (nexts.length < this.ne.getAParams().population) {
+      if (nexts.length < this.ne.getParams().population) {
         nexts.push(n);
       }
     }
@@ -133,13 +131,13 @@ export class Generation {
         let childs = this.breed(
           this.genomes[i],
           this.genomes[max],
-          this.ne.getAParams().nbChild > 0 ? this.ne.getAParams().nbChild : 1
+          this.ne.getParams().nbChild > 0 ? this.ne.getParams().nbChild : 1
         );
 
         for (let c in childs) {
           nexts.push(childs[c].network);
 
-          if (nexts.length >= this.ne.getAParams().population) {
+          if (nexts.length >= this.ne.getParams().population) {
             /* Return once number of children is equal to the
              * population by generatino value */
             return nexts;

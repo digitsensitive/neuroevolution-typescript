@@ -19,23 +19,26 @@ export class Neuron {
   }
 
   /**
-   * Initialize number of neuron weights to random clamped values
-   * @param {number} nb Number of neuron weights (number of inputs).
+   * Populate the neuron with random weights for each connection
+   * @param numberOfInputs [Number of inputs].
    */
-  public populate(nb: number): void {
-    this.weights = [];
-
-    for (let i = 0; i < nb; i++) {
+  public populate(numberOfInputs: number): void {
+    for (let i = 0; i < numberOfInputs; i++) {
       this.weights.push(this.randomClamped());
     }
   }
 
   /**
-   * Returns a random value between -1 and 1
-   * @return {number} [Random Value]
+   * Reset all the weights
+   */
+  public resetWeights(): void {
+    this.weights = [];
+  }
+
+  /**
+   * Returns a random value between [-1,1)
    */
   private randomClamped(): number {
-    // [0,1) 0.999 * 2
     return Math.random() * 2 - 1;
   }
 }

@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import { Network } from "./Network";
+import { Network } from "./neural network/Network";
 
 export class Genome {
   private score: number;

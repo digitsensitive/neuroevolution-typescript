@@ -7,7 +7,7 @@
 
 import { Generation } from "./Generation";
 import { Neuroevolution } from "./Neuroevolution";
-import { Network } from "./Network";
+import { Network } from "./neural network/Network";
 
 export class Generations {
   private generations: Generation[];
@@ -36,17 +36,17 @@ export class Generations {
     /* FIXME input, hiddens, output unused */
     let out = [];
 
-    for (let i = 0; i < this.ne.getAParams().population; i++) {
+    for (let i = 0; i < this.ne.getParams().population; i++) {
       /* generate the Network and save it */
       let nn = new Network();
 
-      nn.perceptronGeneration(
-        this.ne.getAParams().network[0],
-        this.ne.getAParams().network[1],
-        this.ne.getAParams().network[2]
+      nn.generateNetworkLayers(
+        this.ne.getParams().network[0],
+        this.ne.getParams().network[1],
+        this.ne.getParams().network[2]
       );
 
-      out.push(nn.getSave());
+      out.push(nn.getCopyOfTheNetwork());
     }
 
     this.generations.push(new Generation(this.ne));
