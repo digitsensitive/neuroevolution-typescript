@@ -6,12 +6,13 @@
  */
 
 import { Generations } from "./Generations";
-import { Genome } from "./Genome";
+import { Genome } from "./genome";
 import { INeuroevolutionConfig } from "./interfaces/neuroevolution-config.interface";
 import { Network } from "./neural network/Network";
+import { INetworkData } from "./interfaces/network-data.interface";
 
 export class Neuroevolution {
-  private parameters: INeuroevolutionConfig;
+  private parameters: INeuroevolutionConfig = {} as INeuroevolutionConfig;
   private generations: Generations;
 
   public getParams(): INeuroevolutionConfig {
@@ -84,7 +85,7 @@ export class Neuroevolution {
       }
     }
 
-    if (this.parameters.historic != -1) {
+    if (this.parameters.historic !== -1) {
       /* Remove older generations */
       if (
         this.generations.getGenerations().length >
@@ -108,7 +109,9 @@ export class Neuroevolution {
    * @param {[type]} network [Neural Network]
    * @param {[type]} score   [Score value]
    */
-  public networkScore(network, score): void {
-    this.generations.addGenome(new Genome(score, network.getSave()));
+  public networkScore(network: Network, score: number): void {
+    this.generations.addGenome(
+      new Genome(score, network.getCopyOfTheNetwork())
+    );
   }
 }

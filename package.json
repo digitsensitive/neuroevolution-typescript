@@ -17,9 +17,16 @@
   "license": "MIT",
   "author": "digitsensitive <digit.sensitivee@gmail.com>",
   "main": "main.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^3.5.1"
+  },
+  "files": [
+    "lib/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/digitsensitive/neuroevolution-typescript.git"

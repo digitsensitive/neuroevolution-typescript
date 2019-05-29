@@ -5,8 +5,9 @@
  * @license      Digitsensitive
  */
 
-import { Generation } from "./Generation";
-import { Neuroevolution } from "./Neuroevolution";
+import { Generation } from "./generation";
+import { Genome } from "./genome";
+import { Neuroevolution } from "./neuroevolution";
 import { Network } from "./neural network/Network";
 
 export class Generations {
@@ -32,7 +33,7 @@ export class Generations {
    * @param  {[type]} _output  [Output layer]
    * @return {[type]}          [First Generation]
    */
-  public firstGeneration(_input?, _hiddens?, _output?) {
+  public firstGeneration(_input?: number, _hiddens?: number, _output?: number) {
     /* FIXME input, hiddens, output unused */
     let out = [];
 
@@ -74,7 +75,7 @@ export class Generations {
    * @param  {[type]} genome [Genome]
    * @return {[type]}        [False if no Generations to add to]
    */
-  public addGenome(genome) {
+  public addGenome(genome: Genome) {
     /* cant add to a Generation if there are no Generations */
     if (this.generations.length == 0) {
       return false;

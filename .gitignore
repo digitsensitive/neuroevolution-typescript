@@ -6,6 +6,7 @@
 #General
 #-------------------------------------------------------------------------------
 node_modules
+/lib
 *.tsx
 yarn.lock
 package-lock.json

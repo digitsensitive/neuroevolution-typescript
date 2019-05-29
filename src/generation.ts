@@ -5,8 +5,8 @@
  * @license      Digitsensitive
  */
 
-import { Genome } from "./Genome";
-import { Neuroevolution } from "./Neuroevolution";
+import { Genome } from "./genome";
+import { Neuroevolution } from "./neuroevolution";
 
 /* Generation class, composed of a set of Genomes */
 export class Generation {
@@ -27,18 +27,18 @@ export class Generation {
    * Add a genome to the generation.
    * @param {[type]} _genome [Genome to add]
    */
-  public addGenome(_genome): void {
+  public addGenome(_genome: Genome): void {
     /* locate position to insert Genome into, the gnomes should remain sorted */
 
     for (var i = 0; i < this.genomes.length; i++) {
       /* sort in descending order */
       if (this.ne.getParams().scoreSort < 0) {
-        if (_genome.score > this.genomes[i].getScore()) {
+        if (_genome.getScore() > this.genomes[i].getScore()) {
           break;
         }
       } else {
         /* sort in ascending order */
-        if (_genome.score < this.genomes[i].getScore()) {
+        if (_genome.getScore() < this.genomes[i].getScore()) {
           break;
         }
       }
@@ -55,19 +55,19 @@ export class Generation {
    * @param  {[type]} nbChilds [Number of offspring (children)]
    * @return {Object}          [Object]
    */
-  private breed(g1, g2, nbChilds): Object {
+  private breed(g1: Genome, g2: Genome, nbChilds: number): any {
     let datas = [];
 
     for (let nb = 0; nb < nbChilds; nb++) {
       /* Deep clone of genome 1 */
       let data = JSON.parse(JSON.stringify(g1));
 
-      for (let i in g2.network.weights) {
+      for (let i in g2.getNetwork().weights) {
         /* Genetic crossover
          * 0.5 is the crossover factor.
          * FIXME Really should be a predefined constant */
         if (Math.random() <= 0.5) {
-          data.network.weights[i] = g2.network.weights[i];
+          data.getNetwork().weights[i] = g2.getNetwork().weights[i];
         }
       }
 

@@ -21,7 +21,11 @@ export class Network {
    * @param hidden [number of neurons per hidden layer]
    * @param output [number of neurons in the output layer]
    */
-  public generateNetworkLayers(input, hidden, output): void {
+  public generateNetworkLayers(
+    input: number,
+    hidden: number[],
+    output: number
+  ): void {
     let index = 0;
     let previousNeurons = 0;
     let inputLayer = new Layer(index);
@@ -122,7 +126,7 @@ export class Network {
    * @param  {[type]} _inputs [Set of inputs]
    * @return {Object}         [Network output]
    */
-  private compute(_inputs): Object {
+  private compute(_inputs: any[]): Object {
     // Set the value of each neuron in the input layer
     for (let i in _inputs) {
       if (this.layers[0] && this.layers[0].getNeurons()[i]) {

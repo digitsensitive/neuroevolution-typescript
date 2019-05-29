@@ -22,7 +22,7 @@ export class Layer {
    * @param numberNeurons
    * @param numberInputs
    */
-  public populate(numberNeurons, numberInputs): void {
+  public populate(numberNeurons: number, numberInputs: number): void {
     for (let i = 0; i < numberNeurons; i++) {
       // create new neuron
       let newNeuron = new Neuron();

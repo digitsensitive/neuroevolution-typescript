@@ -5,20 +5,20 @@
  * @license      Digitsensitive
  */
 
-import { Network } from "./neural network/Network";
+import { INetworkData } from "./interfaces/network-data.interface";
 
 export class Genome {
   private score: number;
-  private network: Network;
+  private network: INetworkData;
 
   public getScore(): number {
     return this.score;
   }
-  public getNetwork(): Network {
+  public getNetwork(): INetworkData {
     return this.network;
   }
 
-  constructor(_score, _network) {
+  constructor(_score: number, _network: INetworkData) {
     /* init parameters */
     this.score = _score || 0;
     this.network = _network || undefined;
