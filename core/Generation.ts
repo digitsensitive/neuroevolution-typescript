@@ -1,26 +1,26 @@
 /**
-* @author       Eric Kuhn <digit.sensitivee@gmail.com>
-* @copyright    2017 Eric Kuhn
-* @license      Eric Kuhn
-*/
+ * @author       Digitsensitive <digit.sensitivee@gmail.com>
+ * @copyright    2017 - 2019 Digitsensitive
+ * @description  Neuroevolution: Generation
+ * @license      Digitsensitive
+ */
 
-import { Genome } from './Genome';
-import { Neuroevolution } from './Neuroevolution';
+import { Genome } from "./Genome";
+import { Neuroevolution } from "./Neuroevolution";
 
 /* Generation class, composed of a set of Genomes */
 export class Generation {
-
   private genomes: Genome[];
   private ne: Neuroevolution;
 
-  public getGenomes(): Genome[] { return this.genomes; }
+  public getGenomes(): Genome[] {
+    return this.genomes;
+  }
 
   constructor(_ne: Neuroevolution) {
-
     /* init parameters */
     this.genomes = [];
     this.ne = _ne;
-
   }
 
   /**
@@ -31,31 +31,21 @@ export class Generation {
     /* locate position to insert Genome into, the gnomes should remain sorted */
 
     for (var i = 0; i < this.genomes.length; i++) {
-
       /* sort in descending order */
       if (this.ne.getAParams().scoreSort < 0) {
-
         if (_genome.score > this.genomes[i].getScore()) {
           break;
         }
-
-
-      }
-
-      /* sort in ascending order */
-      else {
-
+      } else {
+        /* sort in ascending order */
         if (_genome.score < this.genomes[i].getScore()) {
           break;
         }
-
       }
-
     }
 
     /* insert genome into correct position */
     this.genomes.splice(i, 0, _genome);
-
   }
 
   /**
@@ -66,104 +56,103 @@ export class Generation {
    * @return {Object}          [Object]
    */
   private breed(g1, g2, nbChilds): Object {
+    let datas = [];
 
-		let datas = [];
+    for (let nb = 0; nb < nbChilds; nb++) {
+      /* Deep clone of genome 1 */
+      let data = JSON.parse(JSON.stringify(g1));
 
-		for (let nb = 0; nb < nbChilds; nb++) {
-
-			/* Deep clone of genome 1 */
-			let data = JSON.parse(JSON.stringify(g1));
-
-			for (let i in g2.network.weights) {
-
+      for (let i in g2.network.weights) {
         /* Genetic crossover
-				 * 0.5 is the crossover factor.
-				 * FIXME Really should be a predefined constant */
-				if (Math.random() <= 0.5) {
-					data.network.weights[i] = g2.network.weights[i];
-				}
+         * 0.5 is the crossover factor.
+         * FIXME Really should be a predefined constant */
+        if (Math.random() <= 0.5) {
+          data.network.weights[i] = g2.network.weights[i];
+        }
+      }
 
-			}
+      /* perform mutation on some weights */
+      for (let i in data.network.weights) {
+        if (Math.random() <= this.ne.getAParams().mutationRate) {
+          data.network.weights[i] +=
+            Math.random() * this.ne.getAParams().mutationRate * 2 -
+            this.ne.getAParams().mutationRate;
+        }
+      }
 
-			/* perform mutation on some weights */
-			for (let i in data.network.weights) {
+      datas.push(data);
+    }
 
-				if (Math.random() <= this.ne.getAParams().mutationRate) {
-
-					data.network.weights[i] += Math.random() * this.ne.getAParams().mutationRate * 2 - this.ne.getAParams().mutationRate;
-
-				}
-
-			}
-
-			datas.push(data);
-
-		}
-
-		return datas;
-
-	}
+    return datas;
+  }
 
   /**
    * Generate the next generation
    */
   public generateNextGeneration() {
+    let nexts = [];
 
-		let nexts = [];
-
-		for (let i = 0; i < Math.round(this.ne.getAParams().elitism * this.ne.getAParams().population); i++) {
-
-			if (nexts.length < this.ne.getAParams().population) {
-
+    for (
+      let i = 0;
+      i <
+      Math.round(
+        this.ne.getAParams().elitism * this.ne.getAParams().population
+      );
+      i++
+    ) {
+      if (nexts.length < this.ne.getAParams().population) {
         /* push a deep copy of ith Genome's Nethwork */
-				nexts.push(JSON.parse(JSON.stringify(this.genomes[i].getNetwork())));
+        nexts.push(JSON.parse(JSON.stringify(this.genomes[i].getNetwork())));
+      }
+    }
 
-			}
-		}
-
-		for (let i = 0; i < Math.round(this.ne.getAParams().randomBehaviour * this.ne.getAParams().population); i++) {
-
+    for (
+      let i = 0;
+      i <
+      Math.round(
+        this.ne.getAParams().randomBehaviour * this.ne.getAParams().population
+      );
+      i++
+    ) {
       let n = JSON.parse(JSON.stringify(this.genomes[0].getNetwork()));
 
-			for (let k in n.weights) {
-				n.weights[k] = this.randomClamped();
-			}
+      for (let k in n.weights) {
+        n.weights[k] = this.randomClamped();
+      }
 
-			if (nexts.length < this.ne.getAParams().population) {
-				nexts.push(n);
-			}
+      if (nexts.length < this.ne.getAParams().population) {
+        nexts.push(n);
+      }
+    }
 
-		}
+    let max = 0;
 
-		let max = 0;
-
-		while(true) {
-
-			for (let i = 0; i < max; i++) {
+    while (true) {
+      for (let i = 0; i < max; i++) {
         /* create the children and push them to the nexts array */
-  			let childs = this.breed(this.genomes[i], this.genomes[max], (this.ne.getAParams().nbChild > 0 ? this.ne.getAParams().nbChild : 1));
+        let childs = this.breed(
+          this.genomes[i],
+          this.genomes[max],
+          this.ne.getAParams().nbChild > 0 ? this.ne.getAParams().nbChild : 1
+        );
 
-				for (let c in childs) {
+        for (let c in childs) {
+          nexts.push(childs[c].network);
 
-					nexts.push(childs[c].network);
+          if (nexts.length >= this.ne.getAParams().population) {
+            /* Return once number of children is equal to the
+             * population by generatino value */
+            return nexts;
+          }
+        }
+      }
 
-					if (nexts.length >= this.ne.getAParams().population) {
-						/* Return once number of children is equal to the
-						 * population by generatino value */
-						return nexts;
-
-					}
-				}
-			}
-
-			max++;
-			if (max >= this.genomes.length - 1) {
-				max = 0;
-			}
-
-		}
-
-	}
+      max++;
+      if (max >= this.genomes.length - 1) {
+        max = 0;
+      }
+    }
+  }
 
   /**
    * Returns a random value between -1 and 1
@@ -172,5 +161,4 @@ export class Generation {
   private randomClamped(): number {
     return Math.random() * 2 - 1;
   }
-
 }

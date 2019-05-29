@@ -1,24 +1,24 @@
 /**
-* @author       Eric Kuhn <digit.sensitivee@gmail.com>
-* @copyright    2017 Eric Kuhn
-* @license      Eric Kuhn
-*/
+ * @author       Digitsensitive <digit.sensitivee@gmail.com>
+ * @copyright    2017 - 2019 Digitsensitive
+ * @description  Neuroevolution: Layer
+ * @license      Digitsensitive
+ */
 
-import { Neuron } from './Neuron';
+import { Neuron } from "./Neuron";
 
 export class Layer {
-
   private id: number;
   private neurons: Neuron[];
 
-  public getNeurons(): Neuron[] { return this.neurons; }
+  public getNeurons(): Neuron[] {
+    return this.neurons;
+  }
 
   constructor(_index: number) {
-
     /* init parameters */
     this.id = _index || 0;
     this.neurons = [];
-
   }
 
   /**
@@ -28,11 +28,9 @@ export class Layer {
    * @param {[type]} nbInputs  [Number of inputs]
    */
   public populate(nbNeurons, nbInputs): void {
-
     this.neurons = [];
 
     for (let i = 0; i < nbNeurons; i++) {
-
       /* create new Neuron */
       let n = new Neuron();
 
@@ -41,9 +39,6 @@ export class Layer {
 
       /* push the Neuron to the layer */
       this.neurons.push(n);
-
     }
-
   }
-
 }

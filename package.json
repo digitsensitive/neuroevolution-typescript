@@ -4,20 +4,21 @@
   "description": "Neuroevolution library in TypeScript",
   "keywords": [
     "Neuroevolution",
-    "Machine Learning",
+    "Neuro-evolution",
+    "Artificial intelligence",
+    "Evolutionary algorithms",
+    "Artificial neural networks",
+    "Neural networks",
     "TypeScript"
   ],
   "bugs": {
     "email": "digit.sensitivee@gmail.com"
   },
   "license": "MIT",
-  "author": "Eric Kuhn <digit.sensitivee@gmail.com>",
+  "author": "digitsensitive <digit.sensitivee@gmail.com>",
   "main": "main.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-  },
+  "scripts": {},
+  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",

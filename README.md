@@ -1,4 +1,11 @@
-# Neuroevolution library in Typescript
+# Phaser 3 and TypeScript
+
+&nbsp;&nbsp;
+[![GitHub issues](https://img.shields.io/github/issues/digitsensitive/neuroevolution-typescript.svg)](https://github.com/digitsensitive/neuroevolution-typescript/issues)
+[![GitHub stars](https://img.shields.io/github/stars/digitsensitive/neuroevolution-typescript.svg)](https://github.com/digitsensitive/neuroevolution-typescript/stargazers)
+![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
+[![Code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![GitHub license](https://img.shields.io/github/license/digitsensitive/neuroevolution-typescript.svg)](https://github.com/digitsensitive/neuroevolution-typescript)
 
 ## Neuroevolution
 
@@ -13,7 +20,15 @@ My motivation was to rewrite it in TypeScript.
 
 `import * as Neuroevolution from './node_modules/neuroevolution-typescript/main';`
 
-## Version
+## Changelog
 
-0.0.2 (19.08.2017)
-- First release
+[Learn about the latest improvements](https://github.com/digitsensitive/neuroevolution-typescript/blob/master/CHANGELOG.md)
+
+## Contributing
+
+Want to correct a bug, contribute some code, or improve the codes? Excellent! Let me know!
+Please read [CONTRIBUTING.md](https://github.com/digitsensitive/neuroevolution-typescript/blob/master/CONTRIBUTING.md) for details on our code of conduct.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/digitsensitive/neuroevolution-typescript/blob/master/LICENSE) file for details.

@@ -1,24 +1,21 @@
 /**
-* @author       Eric Kuhn <digit.sensitivee@gmail.com>
-* @copyright    2017 Eric Kuhn
-* @license      Eric Kuhn
-*/
+ * @author       Digitsensitive <digit.sensitivee@gmail.com>
+ * @copyright    2017 - 2019 Digitsensitive
+ * @description  Neuroevolution: Neuron
+ * @license      Digitsensitive
+ */
 
 export class Neuron {
+  public value: number;
+  public weights: number[];
 
-  private value: number;
-  private weights: number[];
-
-  public getValue(): number { return this.value; }
-  public getWeights(): number[] { return this.weights; }
-  public setValue(v: number): void { this.value = v; }
+  public setValue(v: number): void {
+    this.value = v;
+  }
 
   constructor() {
-
-    /* init parameters */
     this.value = 0;
     this.weights = [];
-
   }
 
   /**
@@ -26,13 +23,11 @@ export class Neuron {
    * @param {number} nb Number of neuron weights (number of inputs).
    */
   public populate(nb: number): void {
-
     this.weights = [];
 
     for (let i = 0; i < nb; i++) {
       this.weights.push(this.randomClamped());
     }
-
   }
 
   /**
@@ -40,7 +35,7 @@ export class Neuron {
    * @return {number} [Random Value]
    */
   private randomClamped(): number {
+    // [0,1) 0.999 * 2
     return Math.random() * 2 - 1;
   }
-
 }
