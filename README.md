@@ -1,4 +1,4 @@
-# Phaser 3 and TypeScript
+# Neuroevolution in Typescript
 
 &nbsp;&nbsp;
 [![GitHub issues](https://img.shields.io/github/issues/digitsensitive/neuroevolution-typescript.svg)](https://github.com/digitsensitive/neuroevolution-typescript/issues)
