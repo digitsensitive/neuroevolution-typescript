@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import { Neuron } from "./neuron";
+import { Neuron } from './neuron';
 
 export class Layer {
   private id: number;
@@ -25,7 +25,7 @@ export class Layer {
   public populate(numberNeurons: number, numberInputs: number): void {
     for (let i = 0; i < numberNeurons; i++) {
       // create new neuron
-      let newNeuron = new Neuron();
+      const newNeuron = new Neuron();
 
       // set the input connections to this new neuron
       newNeuron.populate(numberInputs);

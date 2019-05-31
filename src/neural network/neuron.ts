@@ -9,13 +9,17 @@ export class Neuron {
   public value: number;
   public weights: number[];
 
-  public setValue(v: number): void {
-    this.value = v;
-  }
-
   constructor() {
     this.value = 0;
     this.weights = [];
+  }
+
+  /**
+   * Set a new value
+   * @param value
+   */
+  public setValue(value: number): void {
+    this.value = value;
   }
 
   /**

@@ -20,6 +20,12 @@ My motivation was to rewrite it in TypeScript.
 
 `import * as Neuroevolution from './node_modules/neuroevolution-typescript/main';`
 
+
+## Ressources
+
+[Deep Neuroevolution: Genetic Algorithms are a Competitive Alternative for
+Training Deep Neural Networks for Reinforcement Learning](https://arxiv.org/pdf/1712.06567.pdf)  
+
 ## Changelog
 
 [Learn about the latest improvements](https://github.com/digitsensitive/neuroevolution-typescript/blob/master/CHANGELOG.md)

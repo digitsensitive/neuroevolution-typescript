@@ -5,46 +5,46 @@
  * @license      Digitsensitive
  */
 
-import { Generation } from "./generation";
-import { Genome } from "./genome";
-import { Neuroevolution } from "./neuroevolution";
-import { Network } from "./neural network/Network";
+import { Generation } from './generation';
+import { Genome } from './genome';
+import { Network } from './neural network/network';
+import { Neuroevolution } from './neuroevolution';
 
 export class Generations {
   private generations: Generation[];
   private currentGeneration: Generation;
   private ne: Neuroevolution;
 
+  constructor(ne: Neuroevolution) {
+    /* init parameters */
+    this.generations = [];
+    this.currentGeneration = new Generation(ne);
+    this.ne = ne;
+  }
+
   public getGenerations(): Generation[] {
     return this.generations;
   }
 
-  constructor(_ne: Neuroevolution) {
-    /* init parameters */
-    this.generations = [];
-    this.currentGeneration = new Generation(_ne);
-    this.ne = _ne;
-  }
-
   /**
    * Create the first generation
-   * @param  {[type]} _input   [Input layer]
-   * @param  {[type]} _hiddens [Hidden layer(s)]
-   * @param  {[type]} _output  [Output layer]
+   * @param  {[type]} input   [Input layer]
+   * @param  {[type]} hiddens [Hidden layer(s)]
+   * @param  {[type]} output  [Output layer]
    * @return {[type]}          [First Generation]
    */
-  public firstGeneration(_input?: number, _hiddens?: number, _output?: number) {
+  public firstGeneration(input?: number, hiddens?: number, output?: number) {
     /* FIXME input, hiddens, output unused */
-    let out = [];
+    const out = [];
 
-    for (let i = 0; i < this.ne.getParams().population; i++) {
+    for (let i = 0; i < this.ne.getConfiguration().population; i++) {
       /* generate the Network and save it */
-      let nn = new Network();
+      const nn = new Network();
 
       nn.generateNetworkLayers(
-        this.ne.getParams().network[0],
-        this.ne.getParams().network[1],
-        this.ne.getParams().network[2]
+        this.ne.getConfiguration().network[0],
+        this.ne.getConfiguration().network[1],
+        this.ne.getConfiguration().network[2],
       );
 
       out.push(nn.getCopyOfTheNetwork());
@@ -58,12 +58,12 @@ export class Generations {
    * Create the next Generation.
    */
   public nextGeneration() {
-    if (this.generations.length == 0) {
+    if (this.generations.length === 0) {
       /* need to create first generation */
       return [];
     }
 
-    let gen = this.generations[
+    const gen = this.generations[
       this.generations.length - 1
     ].generateNextGeneration();
     this.generations.push(new Generation(this.ne));
@@ -77,7 +77,7 @@ export class Generations {
    */
   public addGenome(genome: Genome) {
     /* cant add to a Generation if there are no Generations */
-    if (this.generations.length == 0) {
+    if (this.generations.length === 0) {
       return false;
     }
 
