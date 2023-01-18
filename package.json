@@ -16,31 +16,38 @@
   },
   "license": "MIT",
   "author": "digitsensitive <digit.sensitivee@gmail.com>",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/Neuroevolution.js",
+  "types": "dist/declaration/Neuroevolution.d.ts",
   "scripts": {
-    "test": "jest --config jestconfig.json",
-    "build": "tsc",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
-    "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "test": "echo 'No test specified'",
+    "build": "rollup -c rollup.config.js --environment mode:production",
+    "dev": "rollup -c --environment mode:development -w",
+    "prettier-format": "prettier --write \"src/**/*.ts\"",
+    "serve": "serve -n -L -p 8080",
+    "start": "npm run dev",
+    "lint:tsc": "eslint -c .eslintrc.js ./src",
+    "lint:tsc:fix": "eslint -c .eslintrc.js ./src --fix",
+    "lint": "npm run lint:tsc",
+    "lint:fix": "npm run lint:tsc:fix"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@types/jest": "^24.0.13",
-    "jest": "^24.8.0",
-    "prettier": "^1.17.1",
-    "ts-jest": "^24.0.2",
-    "tslint": "^5.17.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.5.1"
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/node": "^18.11.18",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "eslint": "^8.32.0",
+    "prettier": "^1.19.1",
+    "rollup": "^3.10.0",
+    "rollup-plugin-uglify": "^3.0.0",
+    "rollup-watch": "^4.3.1",
+    "serve": "^14.1.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^3.9.10"
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "repository": {
     "type": "git",

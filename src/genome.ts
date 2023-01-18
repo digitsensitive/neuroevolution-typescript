@@ -8,18 +8,18 @@
 import { INetworkData } from './interfaces/network-data.interface';
 
 export class Genome {
-  private score: number;
-  private network: INetworkData;
+    private score: number;
+    private network: INetworkData;
 
-  constructor(score: number, network: INetworkData) {
-    this.score = score || 0;
-    this.network = network || undefined;
-  }
+    constructor(score: number, network: INetworkData) {
+        this.score = score || 0;
+        this.network = network || undefined;
+    }
 
-  public getScore(): number {
-    return this.score;
-  }
-  public getNetwork(): INetworkData {
-    return this.network;
-  }
+    public getScore(): number {
+        return this.score;
+    }
+    public getNetwork(): INetworkData {
+        return this.network;
+    }
 }

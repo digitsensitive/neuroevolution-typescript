@@ -6,14 +6,16 @@
  */
 
 export interface INeuroevolutionConfig {
-  network?: any[];
-  population?: number;
-  elitism?: number;
-  randomBehaviour?: number;
-  mutationRate?: number;
-  mutationRange?: number;
-  historic?: number;
-  lowHistoric?: boolean;
-  scoreSort?: number;
-  nbChild?: number;
+    network?: any[];
+    population?: number;
+    elitism?: number;
+    randomBehaviour?: number;
+    mutationRate?: number;
+    mutationRange?: number;
+    historic?: number;
+    lowHistoric?: boolean;
+    scoreSort?: number;
+    nbChild?: number;
 }
+
+export type INeuroevolutionConfigRequired = Required<INeuroevolutionConfig>
