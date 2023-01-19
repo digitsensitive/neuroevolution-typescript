@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-export class Neuron {
+export default class Neuron {
     public value: number;
     public weights: number[];
 
@@ -40,7 +40,7 @@ export class Neuron {
     }
 
     /**
-     * Returns a random value between [-1,1)
+     * Returns a random value between [-1,1]
      */
     private randomClamped(): number {
         return Math.random() * 2 - 1;

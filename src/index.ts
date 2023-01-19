@@ -5,14 +5,9 @@
  * @license      Digitsensitive
  */
 
-import { Generations } from './generations';
-import { Genome } from './genome';
-import { INetworkData } from './interfaces/network-data.interface';
-import { 
-    INeuroevolutionConfig,
-    INeuroevolutionConfigRequired
-} from './interfaces/neuroevolution-config.interface';
-import { Network } from './neural network/network';
+import Generations from './generations';
+import Genome from './genome';
+import Network from './neural network/network';
 
 /**
  * Main index file
@@ -20,7 +15,6 @@ import { Network } from './neural network/network';
 export default class Neuroevolution {
     private configuration: INeuroevolutionConfigRequired;
     private generations: Generations;
-    public options: INeuroevolutionConfigRequired;
 
     constructor(config: INeuroevolutionConfig) {
         this.configuration = Object.assign(
@@ -40,13 +34,10 @@ export default class Neuroevolution {
         );
 
         this.generations = new Generations(this);
+    }
 
-        /**
-         * I used xviniette/FlappyLearning to test this
-         *
-         * https://github.com/xviniette/FlappyLearning
-         * */
-        this.options = this.configuration;
+    get options(): INeuroevolutionConfigRequired {
+        return this.configuration;
     }
 
     /**
@@ -74,22 +65,28 @@ export default class Neuroevolution {
      * Create the next generation
      */
     public nextGeneration() {
-        let networks: any = [];
+        let networks: INetworkData[] = [];
 
         if (this.generations.getGenerations().length === 0) {
             /* if no Generations, create first */
-            networks = this.generations.firstGeneration();
+            // prettier-ignore
+            networks = this.generations.firstGeneration(
+                this.options.network[0],
+                this.options.network[1],
+                this.options.network[2]
+            );
         } else {
             /* otherwise, create next one */
             networks = this.generations.nextGeneration();
         }
 
         /* create Networks from the current Generation */
-        const nns: any = [];
-        for (const i of Object.keys(networks)) {
-            const nn = new Network();
-            nn.loadNetworkWithData(networks[i]);
-            nns.push(nn);
+        const nns: Network[] = [];
+
+        for (const network of networks) {
+            const newNetwork: Network = new Network();
+            newNetwork.loadNetworkWithData(network);
+            nns.push(newNetwork);
         }
 
         if (this.configuration.lowHistoric) {
@@ -97,9 +94,7 @@ export default class Neuroevolution {
             if (this.generations.getGenerations().length >= 2) {
                 const genomes = this.generations.getGenerations()[this.generations.getGenerations().length - 2].getGenomes();
 
-                for (const i in genomes) {
-                    delete genomes[i];
-                }
+                genomes.splice(0, genomes.length - 1);
             }
         }
 

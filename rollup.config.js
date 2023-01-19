@@ -1,24 +1,14 @@
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import summary from 'rollup-plugin-summary';
 
-/**
- * I'm just having a problrm running const-export in my device
- * */
-
-
-const commonjs = require('@rollup/plugin-commonjs');
-const json = require('@rollup/plugin-json');
-const resolve = require('@rollup/plugin-node-resolve');
-const typescript = require('@rollup/plugin-typescript');
-//const terser = require('@rollup/plugin-terser');
-
-const uglify = require("rollup-plugin-uglify");
-
-
-//console.log(uglify())
 const devMode = process.env.mode !== 'production';
 
-console.log("Mode: " + process.env.mode)
+console.log("Mode: " + process.env.mode);
 
-module.exports = {
+export default {
     input: './src/index.ts',
     output: [{
         file: "./dist/Neuroevolution.js",
@@ -26,16 +16,16 @@ module.exports = {
         format: 'umd',
         sourcemap: true
     }],
+    treeshake: !devMode,
     plugins: [
-       // terser()
-        uglify(),
         typescript(),
         json(),
         commonjs(),
+        summary(),
         resolve({
-          preferBuiltins: false,
-          browser: true,
-          extensions: ['.ts'],
+            preferBuiltins: false,
+            browser: true,
+            extensions: ['.ts'],
         }),
     ]
 };

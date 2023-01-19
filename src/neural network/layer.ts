@@ -5,15 +5,15 @@
  * @license      Digitsensitive
  */
 
-import { Neuron } from './neuron';
+import Neuron from './neuron';
 
-export class Layer {
-    private id: number;
-    private neurons: Neuron[];
+export default class Layer {
+    private __id__: number;
+    private __neurons__: Neuron[];
 
     constructor(index: number) {
-        this.id = index;
-        this.neurons = [];
+        this.__id__ = index;
+        this.__neurons__ = [];
     }
 
     /**
@@ -31,21 +31,21 @@ export class Layer {
             newNeuron.populate(numberInputs);
 
             // push the neuron to the layer
-            this.neurons.push(newNeuron);
+            this.__neurons__.push(newNeuron);
         }
     }
 
     /**
      * Get the neurons of this layer
      */
-    public getNeurons(): Neuron[] {
-        return this.neurons;
+    get neurons(): Neuron[] {
+        return this.__neurons__;
     }
 
     /**
      * Reset all the neurons in this layer.
      */
     public resetLayer(): void {
-        this.neurons = [];
+        this.__neurons__ = [];
     }
 }

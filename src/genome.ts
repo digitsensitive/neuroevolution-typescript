@@ -5,21 +5,27 @@
  * @license      Digitsensitive
  */
 
-import { INetworkData } from './interfaces/network-data.interface';
-
-export class Genome {
-    private score: number;
-    private network: INetworkData;
+export default class Genome {
+    private __score__: number;
+    private __network__: INetworkData;
 
     constructor(score: number, network: INetworkData) {
-        this.score = score || 0;
-        this.network = network || undefined;
+        this.__score__ = score || 0;
+
+        this.__network__ = Object.assign(
+            {
+                neurons: [],
+                weights: []
+            },
+            network
+        );
     }
 
-    public getScore(): number {
-        return this.score;
+    get network(): INetworkData {
+        return this.__network__;
     }
-    public getNetwork(): INetworkData {
-        return this.network;
+
+    get score(): number {
+        return this.__score__;
     }
 }

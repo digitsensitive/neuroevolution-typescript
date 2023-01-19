@@ -5,11 +5,17 @@
  * @license      Digitsensitive
  */
 
-import { Genome } from './genome';
+import Genome from './genome';
 import Neuroevolution from './index';
 
+/**
+ * Any other way to import lodash functions?
+ * It is still include entire lodash into production build
+ * */
+import cloneDeep from 'lodash/cloneDeep.js';
+
 /* Generation class, composed of a set of Genomes */
-export class Generation {
+export default class Generation {
     private genomes: Genome[];
     private ne: Neuroevolution;
 
@@ -29,64 +35,70 @@ export class Generation {
      */
     public addGenome(genome: Genome): void {
         /* locate position to insert Genome into, the gnomes should remain sorted */
-        const b = 0;
-        for (let i = b; i < this.genomes.length; i++) {
+        const pos = 0;
+        for (let i = pos; i < this.genomes.length; i++) {
             /* sort in descending order */
-            if (this.ne.getConfiguration().scoreSort < 0) {
-                if (genome.getScore() > this.genomes[i].getScore()) {
+            if (this.ne.options.scoreSort < 0) {
+                if (genome.score > this.genomes[i].score) {
                     break;
                 }
             } else {
                 /* sort in ascending order */
-                if (genome.getScore() < this.genomes[i].getScore()) {
+                if (genome.score < this.genomes[i].score) {
                     break;
                 }
             }
         }
 
         /* insert genome into correct position */
-        this.genomes.splice(b, 0, genome);
+        this.genomes.splice(pos, 0, genome);
     }
 
     /**
      * Generate the next generation
      */
-    public generateNextGeneration() {
-        const nexts = [];
+    public generateNextGeneration(): INetworkData[] {
+        const networkDatas: INetworkData[] = [];
+        const { elitism, population, randomBehaviour, nbChild } = this.ne.options;
+        const populationEvolutionary: number = Math.round(elitism * population);
+        const noiseLevel: number = Math.round(randomBehaviour * population);
 
-        for (let i = 0; i < Math.round(this.ne.getConfiguration().elitism * this.ne.getConfiguration().population); i++) {
-            if (nexts.length < this.ne.getConfiguration().population) {
+        for (let i = 0; i < populationEvolutionary; i++) {
+            if (networkDatas.length < population) {
                 /* push a deep copy of ith Genome's Nethwork */
-                nexts.push(JSON.parse(JSON.stringify(this.genomes[i].getNetwork())));
+                networkDatas.push(cloneDeep(this.genomes[i].network));
             }
         }
 
-        for (let i = 0; i < Math.round(this.ne.getConfiguration().randomBehaviour * this.ne.getConfiguration().population); i++) {
-            const n = JSON.parse(JSON.stringify(this.genomes[0].getNetwork()));
+        for (let i = 0; i < noiseLevel; i++) {
+            const network: INetworkData = cloneDeep(this.genomes[1].network);
 
-            for (const k in n.weights) {
-                n.weights[k] = this.randomClamped();
+            for (let weightIndex = 0; weightIndex < network.weights.length; weightIndex++) {
+                network.weights[weightIndex] = this.randomClamped();
             }
 
-            if (nexts.length < this.ne.getConfiguration().population) {
-                nexts.push(n);
+            if (networkDatas.length < population) {
+                networkDatas.push(network);
             }
         }
 
         let max = 0;
 
+        /* eslint-disable no-constant-condition */
+        /* eslint-disable @typescript-eslint/no-unnecessary-condition */
         while (true) {
             for (let i = 0; i < max; i++) {
                 /* create the children and push them to the nexts array */
-                const childs = this.breed(this.genomes[i], this.genomes[max], this.ne.getConfiguration().nbChild > 0 ? this.ne.getConfiguration().nbChild : 1);
+                const childs = this.breed(this.genomes[i], this.genomes[max], nbChild > 0 ? nbChild : 1);
 
-                for (const c in childs) {
-                    nexts.push(childs[c].network);
-
-                    if (nexts.length >= this.ne.getConfiguration().population) {
-                        /* Return once number of children is equal to the
-                         * population by generatino value */
-                        return nexts;
+                for (const child of childs) {
+                    networkDatas.push(child.network);
+                    if (networkDatas.length >= population) {
+                        /**
+                         * Return once number of children is equal to the
+                         * population by generation value
+                         * */
+                        return networkDatas;
                     }
                 }
             }
@@ -105,26 +117,32 @@ export class Generation {
      * @param  {[type]} nbChilds [Number of offspring (children)]
      * @return {Object}          [Object]
      */
-    private breed(g1: Genome, g2: Genome, nbChilds: number): any {
-        const datas = [];
+    private breed(g1: Genome, g2: Genome, nbChilds: number): Genome[] {
+        const datas: Genome[] = [];
+        const crossoverFactor = 0.5;
+        const { mutationRate } = this.ne.options;
 
         for (let nb = 0; nb < nbChilds; nb++) {
             /* Deep clone of genome 1 */
-            const data = Object.assign(Object.create(Object.getPrototypeOf(g1)), g1);
+            const data: Genome = cloneDeep(g1);
 
-            for (const i in g2.getNetwork().weights) {
+            const g2WeightLen: number = g2.network.weights.length;
+
+            for (let i = 0; i < g2WeightLen; i++) {
                 /* Genetic crossover
                  * 0.5 is the crossover factor.
                  * FIXME Really should be a predefined constant */
-                if (Math.random() <= 0.5) {
-                    data.getNetwork().weights[i] = g2.getNetwork().weights[i];
+                if (Math.random() <= crossoverFactor) {
+                    data.network.weights[i] = g2.network.weights[i];
                 }
             }
 
             /* perform mutation on some weights */
-            for (const i in data.network.weights) {
-                if (Math.random() <= this.ne.getConfiguration().mutationRate) {
-                    data.network.weights[i] += Math.random() * this.ne.getConfiguration().mutationRate * 2 - this.ne.getConfiguration().mutationRate;
+            const newLenG1Weight: number = data.network.weights.length;
+
+            for (let i = 0; i < newLenG1Weight; i++) {
+                if (Math.random() <= mutationRate) {
+                    data.network.weights[i] += Math.random() * mutationRate * 2 - mutationRate;
                 }
             }
 
