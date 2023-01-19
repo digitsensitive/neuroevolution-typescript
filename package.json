@@ -16,8 +16,9 @@
   },
   "license": "MIT",
   "author": "digitsensitive <digit.sensitivee@gmail.com>",
-  "main": "dist/Neuroevolution.js",
+  "main": "dist/index.js",
   "types": "dist/declaration/index.d.ts",
+  "typings": "dist/declaration/index.d.ts",
   "type":"module",
   "scripts": {
     "test": "echo 'No test specified'",

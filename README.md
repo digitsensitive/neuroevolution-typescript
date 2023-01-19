@@ -9,7 +9,11 @@
 
 ## Neuroevolution
 
-Neuroevolution, or neuro-evolution, is a form of machine learning that uses evolutionary algorithms to train artificial neural networks. It is most commonly applied in artificial life, computer games, and evolutionary robotics. A main benefit is that neuroevolution can be applied more widely than supervised learning algorithms, which require a syllabus of correct input-output pairs. In contrast, neuroevolution requires only a measure of a network's performance at a task. For example, the outcome of a game (i.e. whether one player won or lost) can be easily measured without providing labeled examples of desired strategies.
+Neuroevolution, or neuro-evolution, is a form of machine learning that uses evolutionary algorithms to train artificial neural networks.
+It is most commonly applied in artificial life, computer games, and evolutionary robotics. A main benefit is that neuroevolution can be applied more
+widely than supervised learning algorithms, which require a syllabus of correct input-output pairs. In contrast, neuroevolution requires only a measure
+of a network's performance at a task. For example, the outcome of a game (i.e. whether one player won or lost) can be easily measured without providing
+labeled examples of desired strategies.
 
 ## Motivation
 
@@ -18,8 +22,54 @@ My motivation was to rewrite it in TypeScript.
 
 ## Usage
 
-`import * as Neuroevolution from './node_modules/neuroevolution-typescript/main';`
+`import Neuroevolution from 'neuroevolution-typescript';`
 
+## Configuration
+
+```ts
+interface INeuroevolutionConfig {
+
+    // Perceptron network structure (1 hidden // layer).
+    // Default: [1, [1], 1]
+    network?: [number, number[], number];
+    
+    // Population by generation.
+    // Default: 50
+    population?: number;
+    
+    // Best networks kepts unchanged for the next generation (rate).
+    // Default: 0.2
+    elitism?: number;
+    
+    // New random networks for the next generation (rate).
+    // Default: 0.2
+    randomBehaviour?: number;
+    
+    // Mutation rate on the weights of synapses.
+    // Default: 0.1
+    mutationRate?: number;
+    
+    // Interval of the mutation changes on the synapse weight
+    // Default: 0.5
+    mutationRange?: number;
+    
+    // Latest generations saved.
+    // Default: 0
+    historic?: number;
+    
+    // Only save score (not the network).
+    // Default: false
+    lowHistoric?: boolean;
+    
+    // Sort order (-1 = desc, 1 = asc).
+    // Default: -1
+    scoreSort?: number;
+    
+    // Number of children by breeding.
+    // Default: 1
+    nbChild?: number;
+}
+```
 
 ## Ressources
 
