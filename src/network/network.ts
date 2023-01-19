@@ -7,6 +7,7 @@
 
 import Layer from './layer';
 import Neuron from './neuron';
+import { INetworkData } from '../types/network-data';
 
 export default class Network {
     private __layers__: Layer[];
@@ -31,7 +32,7 @@ export default class Network {
         // The input layer will not have any connections to previous neurons (it is the input layer!)
         // so the previous neurons will be set to 0
         const inputLayer: Layer = new Layer();
-        
+
         // Create the output layer
         const outputLayer: Layer = new Layer();
 
@@ -56,7 +57,6 @@ export default class Network {
 
             previousNeurons = hidden[index - 1];
         }
-
 
         this.__layers__.push(outputLayer);
     }
@@ -134,9 +134,7 @@ export default class Network {
      * @param  {[type]} inputs [Set of inputs]
      * @return {Object}         [Network output]
      */
-
-    // Unused???
-    /* private compute(inputs: number[]): number[] {
+    public compute(inputs: number[]): number[] {
         const inputLen: number = inputs.length;
         const inputLayerIndex = 0;
         const layerLen: number = this.layers.length;
@@ -150,7 +148,7 @@ export default class Network {
             }
         }
 
-        // Previous layer is input layer 
+        // Previous layer is input layer
         // this.layers[0]
 
         for (let i = 1; i < layerLen; i++) {
@@ -161,20 +159,20 @@ export default class Network {
             const layerNeuronLen: number = currentLayer.neurons.length;
 
             for (let neuronIndex = 0; neuronIndex < layerNeuronLen; neuronIndex++) {
-                // For each Neuron in each layer 
+                // For each Neuron in each layer
                 let sum = 0;
 
                 for (let prevLayerNeuronIndex = 0; prevLayerNeuronIndex < prevLayerNeuronLen; prevLayerNeuronIndex++) {
-                    // Every Neuron in the previous layer is an input to each Neuron in the next layer 
+                    // Every Neuron in the previous layer is an input to each Neuron in the next layer
                     sum += prevLayer.neurons[prevLayerNeuronIndex].value * currentLayer.neurons[neuronIndex].weights[prevLayerNeuronIndex];
                 }
 
-                // compute the activation of the Neuron 
+                // compute the activation of the Neuron
                 currentLayer.neurons[neuronIndex].setValue(this.activation(sum));
             }
         }
 
-        // All outputs of the Network 
+        // All outputs of the Network
         const lastLayer: Layer = this.layers[layerLen - 1];
         const lastLayerNeuronLen: number = lastLayer.neurons.length;
 
@@ -184,17 +182,16 @@ export default class Network {
 
         return computedValue;
     }
- */
+
     /**
      * Logistic activation function
      * @param  {number} a  [Input Value]
      * @return {number}    [Return Value]
      */
-    // unused???
-    /* private activation(a: number): number {
+    private activation(a: number): number {
         const ap = -a / 1;
         return 1 / (1 + Math.exp(ap));
-    } */
+    }
 
     /**
      * Reset all the layers of this network

@@ -27,7 +27,7 @@
     "dev": "rollup -c --environment mode:development -w",
     "dev:serve": "serve ./dist -n -L -p 8080",
     "start": "npm run dev",
-    "prettier-format": "prettier --write \"src/**/*.ts\"",
+    "prettier-format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint:tsc": "eslint -c .eslintrc.json ./src",
     "lint:tsc:fix": "eslint -c .eslintrc.json ./src --fix",
     "lint": "npm run lint:tsc",

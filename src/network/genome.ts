@@ -5,6 +5,8 @@
  * @license      Digitsensitive
  */
 
+import { INetworkData } from '../types/network-data';
+
 export default class Genome {
     private __score__: number;
     private __network__: INetworkData;

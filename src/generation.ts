@@ -7,6 +7,7 @@
 
 import Genome from './network/genome';
 import Neuroevolution from './index';
+import { INetworkData } from './types/network-data';
 
 /**
  * Any other way to import lodash functions?
@@ -59,8 +60,8 @@ export default class Generation {
      */
     public generateNextGeneration(): INetworkData[] {
         // Check if we have a genome to start with
-        if(this.genomes.length === 0) {
-            throw new Error("No genome to start with");
+        if (this.genomes.length === 0) {
+            throw new Error('No genome to start with');
         }
 
         const networkDatas: INetworkData[] = [];
@@ -158,6 +159,6 @@ export default class Generation {
      * @return {number} [Random Value]
      */
     private randomClamped(): number {
-        return (Math.random() * 2) - 1;
+        return Math.random() * 2 - 1;
     }
 }

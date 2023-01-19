@@ -9,16 +9,15 @@ import Generation from './generation';
 import Genome from './network/genome';
 import Network from './network/network';
 import Neuroevolution from './index';
+import { INetworkData } from './types/network-data';
 
 export default class Generations {
     private generations: Generation[];
-    private currentGeneration: Generation;
     private ne: Neuroevolution;
 
     constructor(ne: Neuroevolution) {
         /* init parameters */
         this.generations = [];
-        this.currentGeneration = new Generation(ne);
         this.ne = ne;
     }
 

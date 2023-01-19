@@ -8,8 +8,8 @@
 import Generations from './generations';
 import Genome from './network/genome';
 import Network from './network/network';
-import './types/neuroevolution-config.d';
-import './types/network-data.d';
+import { INeuroevolutionConfigRequired, INeuroevolutionConfig } from './types/neuroevolution-config';
+import { INetworkData } from './types/network-data';
 
 /**
  * Main index file
@@ -73,9 +73,9 @@ export default class Neuroevolution {
             /* if no Generations, create first */
             // prettier-ignore
             networks = this.generations.firstGeneration(
-                this.options.network[0],
-                this.options.network[1],
-                this.options.network[2]
+                this.options.network[0] as number,
+                this.options.network[1] as number[],
+                this.options.network[2] as number
             );
         } else {
             /* otherwise, create next one */

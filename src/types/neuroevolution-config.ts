@@ -4,8 +4,9 @@
  * @description  Neuroevolution: Neuroevolution config interface
  * @license      Digitsensitive
  */
-interface INeuroevolutionConfig {
-    network?: number[number[]];
+
+export interface INeuroevolutionConfig {
+    network?: (number | number[])[];
     population?: number;
     elitism?: number;
     randomBehaviour?: number;
@@ -17,9 +18,4 @@ interface INeuroevolutionConfig {
     nbChild?: number;
 }
 
-type INeuroevolutionConfigRequired = Required<INeuroevolutionConfig>;
-
-declare INeuroevolutionConfig
-declare INeuroevolutionConfigRequired
-
-
+export type INeuroevolutionConfigRequired = Required<INeuroevolutionConfig>;

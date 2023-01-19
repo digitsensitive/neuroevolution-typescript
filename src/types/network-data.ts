@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-interface INetworkData {
+export interface INetworkData {
     // Array with the number of neurons in each layer
     // [A,B, ...]
     // A is the number of neurons in the first layer
@@ -16,5 +16,3 @@ interface INetworkData {
     // Plain array with the weights of each neuron input
     weights: number[];
 }
-
-declare INetworkData;
