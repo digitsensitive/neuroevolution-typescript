@@ -9,12 +9,15 @@ import Layer from './layer';
 import Neuron from './neuron';
 
 export default class Network {
-    private layers: Layer[];
+    private __layers__: Layer[];
 
     constructor() {
-        this.layers = [];
+        this.__layers__ = [];
     }
 
+    get layers(): Layer[] {
+        return this.__layers__;
+    }
     /**
      * Generate all the layers of the network
      * @param input [number of neurons in the input layer]
@@ -27,11 +30,16 @@ export default class Network {
 
         // The input layer will not have any connections to previous neurons (it is the input layer!)
         // so the previous neurons will be set to 0
-        const inputLayer: Layer = new Layer(index);
+        const inputLayer: Layer = new Layer();
+        
+        // Create the output layer
+        const outputLayer: Layer = new Layer();
+
         inputLayer.populate(input, previousNeurons);
+        outputLayer.populate(output, hidden[hidden.length - 1]);
 
         // Add the first layer to our network
-        this.layers.push(inputLayer);
+        this.__layers__.push(inputLayer);
 
         // We now go to the next layer and move one to the right
         // This means, that we will get as many connections as input neurons exist
@@ -40,20 +48,17 @@ export default class Network {
 
         // Now we loop through all the hidden layers (it is an array!)
         for (index; index <= hidden.length; index++) {
-            const newHiddenLayer: Layer = new Layer(index);
+            const newHiddenLayer: Layer = new Layer();
 
             newHiddenLayer.populate(hidden[index - 1], previousNeurons);
 
-            this.layers.push(newHiddenLayer);
+            this.__layers__.push(newHiddenLayer);
 
             previousNeurons = hidden[index - 1];
         }
 
-        // Create the output layer
-        const outputLayer: Layer = new Layer(index);
-        outputLayer.populate(output, previousNeurons);
 
-        this.layers.push(outputLayer);
+        this.__layers__.push(outputLayer);
     }
 
     /**
@@ -66,16 +71,17 @@ export default class Network {
             weights: []
         };
 
-        const layerLen: number = this.layers.length;
+        const layerLen: number = this.__layers__.length;
 
         for (let layerIndex = 0; layerIndex < layerLen; layerIndex++) {
-            const layer: Layer = this.layers[layerIndex];
+            const layer: Layer = this.__layers__[layerIndex];
             const neurons: Neuron[] = layer.neurons;
             const neuronLen: number = neurons.length;
 
             data.neurons.push(neuronLen);
 
             for (let neuronIndex = 0; neuronIndex < neuronLen; neuronIndex++) {
+                //  push all neuron weights into INetworkData object
                 data.weights.splice(data.weights.length, 0, ...neurons[neuronIndex].weights);
             }
         }
@@ -89,37 +95,37 @@ export default class Network {
      */
     public loadNetworkWithData(data: INetworkData): void {
         const neuronLen: number = data.neurons.length;
-        let previousNeurons = 0;
-        let weightIndex = 0;
+        let selfInstanceWeightIndex = 0;
+        let prevNumberInputs: number = 0;
 
         this.resetNetwork();
 
         // Loop through all the neuron and create new Layers
         for (let index = 0; index < neuronLen; index++) {
-            const newLayer: Layer = new Layer(index);
-            newLayer.populate(data.neurons[index], previousNeurons);
+            const newLayer: Layer = new Layer();
+
+            newLayer.populate(data.neurons[index], prevNumberInputs);
 
             // We know how many neurons are in this layer, since we have the number saved
             // Get it and populate the network with random data
             const newLayerNeurons: Neuron[] = newLayer.neurons;
 
-            const newLayerNeuronsLength: number = newLayerNeurons.length;
+            // Since we load network data, we now apply the data to the neurons from new layer
+            for (let neuronIndex = 0; neuronIndex < newLayerNeurons.length; neuronIndex++) {
+                const weightLength: number = newLayerNeurons[neuronIndex].weights.length;
 
-            // Since we load network data, we now apply the data to the neurons
-            for (let newLayerNeuronsIndex = 0; newLayerNeuronsIndex < newLayerNeuronsLength; newLayerNeuronsIndex++) {
-                const weightLength: number = newLayerNeurons[newLayerNeuronsIndex].weights.length;
-                for (let newLayerWeightIndex = 0; newLayerWeightIndex < weightLength; newLayerWeightIndex++) {
-                    newLayerNeurons[newLayerNeuronsIndex].weights[newLayerWeightIndex] = data.weights[weightIndex];
+                for (let weightIndex = 0; weightIndex < weightLength; weightIndex++) {
+                    newLayerNeurons[neuronIndex].weights[weightIndex] = data.weights[selfInstanceWeightIndex];
 
-                    weightIndex++;
+                    selfInstanceWeightIndex++;
                 }
             }
 
-            this.layers.push(newLayer);
+            this.__layers__.push(newLayer);
 
             // We now go to the next layer and move one to the right
             // This means, that we will get as many connections as the last layer has neurons
-            previousNeurons = data.neurons[index];
+            prevNumberInputs = data.neurons[index];
         }
     }
 
@@ -128,7 +134,9 @@ export default class Network {
      * @param  {[type]} inputs [Set of inputs]
      * @return {Object}         [Network output]
      */
-    private compute(inputs: number[]): number[] {
+
+    // Unused???
+    /* private compute(inputs: number[]): number[] {
         const inputLen: number = inputs.length;
         const inputLayerIndex = 0;
         const layerLen: number = this.layers.length;
@@ -142,7 +150,7 @@ export default class Network {
             }
         }
 
-        /* Previous layer is input layer */
+        // Previous layer is input layer 
         // this.layers[0]
 
         for (let i = 1; i < layerLen; i++) {
@@ -153,20 +161,20 @@ export default class Network {
             const layerNeuronLen: number = currentLayer.neurons.length;
 
             for (let neuronIndex = 0; neuronIndex < layerNeuronLen; neuronIndex++) {
-                /* For each Neuron in each layer */
+                // For each Neuron in each layer 
                 let sum = 0;
 
                 for (let prevLayerNeuronIndex = 0; prevLayerNeuronIndex < prevLayerNeuronLen; prevLayerNeuronIndex++) {
-                    /* Every Neuron in the previous layer is an input to each Neuron in the next layer */
+                    // Every Neuron in the previous layer is an input to each Neuron in the next layer 
                     sum += prevLayer.neurons[prevLayerNeuronIndex].value * currentLayer.neurons[neuronIndex].weights[prevLayerNeuronIndex];
                 }
 
-                /* compute the activation of the Neuron */
+                // compute the activation of the Neuron 
                 currentLayer.neurons[neuronIndex].setValue(this.activation(sum));
             }
         }
 
-        /* all outputs of the Network */
+        // All outputs of the Network 
         const lastLayer: Layer = this.layers[layerLen - 1];
         const lastLayerNeuronLen: number = lastLayer.neurons.length;
 
@@ -176,21 +184,22 @@ export default class Network {
 
         return computedValue;
     }
-
+ */
     /**
      * Logistic activation function
      * @param  {number} a  [Input Value]
      * @return {number}    [Return Value]
      */
-    private activation(a: number): number {
+    // unused???
+    /* private activation(a: number): number {
         const ap = -a / 1;
         return 1 / (1 + Math.exp(ap));
-    }
+    } */
 
     /**
      * Reset all the layers of this network
      */
-    private resetNetwork(): void {
-        this.layers = [];
+    public resetNetwork(): void {
+        this.__layers__ = [];
     }
 }

@@ -6,8 +6,10 @@
  */
 
 import Generations from './generations';
-import Genome from './genome';
-import Network from './neural network/network';
+import Genome from './network/genome';
+import Network from './network/network';
+import './types/neuroevolution-config.d';
+import './types/network-data.d';
 
 /**
  * Main index file
@@ -16,7 +18,7 @@ export default class Neuroevolution {
     private configuration: INeuroevolutionConfigRequired;
     private generations: Generations;
 
-    constructor(config: INeuroevolutionConfig) {
+    constructor(config?: INeuroevolutionConfig) {
         this.configuration = Object.assign(
             {
                 network: [1, [1], 1], // Perceptron network structure (1 hidden // layer).

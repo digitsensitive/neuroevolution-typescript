@@ -8,11 +8,9 @@
 import Neuron from './neuron';
 
 export default class Layer {
-    private __id__: number;
     private __neurons__: Neuron[];
 
-    constructor(index: number) {
-        this.__id__ = index;
+    constructor() {
         this.__neurons__ = [];
     }
 

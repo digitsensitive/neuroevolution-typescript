@@ -5,7 +5,7 @@
  * @license      Digitsensitive
  */
 
-import Genome from './genome';
+import Genome from './network/genome';
 import Neuroevolution from './index';
 
 /**
@@ -58,6 +58,11 @@ export default class Generation {
      * Generate the next generation
      */
     public generateNextGeneration(): INetworkData[] {
+        // Check if we have a genome to start with
+        if(this.genomes.length === 0) {
+            throw new Error("No genome to start with");
+        }
+
         const networkDatas: INetworkData[] = [];
         const { elitism, population, randomBehaviour, nbChild } = this.ne.options;
         const populationEvolutionary: number = Math.round(elitism * population);
@@ -126,9 +131,7 @@ export default class Generation {
             /* Deep clone of genome 1 */
             const data: Genome = cloneDeep(g1);
 
-            const g2WeightLen: number = g2.network.weights.length;
-
-            for (let i = 0; i < g2WeightLen; i++) {
+            for (let i = 0; i < g2.network.weights.length; i++) {
                 /* Genetic crossover
                  * 0.5 is the crossover factor.
                  * FIXME Really should be a predefined constant */
@@ -138,9 +141,7 @@ export default class Generation {
             }
 
             /* perform mutation on some weights */
-            const newLenG1Weight: number = data.network.weights.length;
-
-            for (let i = 0; i < newLenG1Weight; i++) {
+            for (let i = 0; i < data.network.weights.length; i++) {
                 if (Math.random() <= mutationRate) {
                     data.network.weights[i] += Math.random() * mutationRate * 2 - mutationRate;
                 }
@@ -157,6 +158,6 @@ export default class Generation {
      * @return {number} [Random Value]
      */
     private randomClamped(): number {
-        return Math.random() * 2 - 1;
+        return (Math.random() * 2) - 1;
     }
 }

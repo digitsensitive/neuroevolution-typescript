@@ -6,8 +6,8 @@
  */
 
 import Generation from './generation';
-import Genome from './genome';
-import Network from './neural network/network';
+import Genome from './network/genome';
+import Network from './network/network';
 import Neuroevolution from './index';
 
 export default class Generations {
@@ -52,7 +52,7 @@ export default class Generations {
     /**
      * Create the next Generation.
      */
-    public nextGeneration() {
+    public nextGeneration(): INetworkData[] {
         if (this.generations.length === 0) {
             /* need to create first generation */
             throw new TypeError('Must call method Generations.firstGeneration() first.');

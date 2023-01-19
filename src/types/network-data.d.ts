@@ -16,3 +16,5 @@ interface INetworkData {
     // Plain array with the weights of each neuron input
     weights: number[];
 }
+
+declare INetworkData;

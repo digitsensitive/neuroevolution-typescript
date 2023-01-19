@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": ["dom","esnext"],
+        "module": "es6",
+        "rootDir": "./tests",
+        "moduleResolution": "node",
+        "typeRoots": [
+            "./node_modules/@types"
+        ],
+        "resolveJsonModule": true,
+        "declaration": false,
+        "sourceMap": false,
+        "outDir": "./tests",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "skipLibCheck": true
+      },
+    "exclude":["./dist", "./src"],
+    "include":["./tests"]
+  }
