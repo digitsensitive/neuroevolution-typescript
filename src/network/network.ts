@@ -96,7 +96,7 @@ export default class Network {
     public loadNetworkWithData(data: INetworkData): void {
         const neuronLen: number = data.neurons.length;
         let selfInstanceWeightIndex = 0;
-        let prevNumberInputs: number = 0;
+        let prevNumberInputs = 0;
 
         this.resetNetwork();
 
@@ -111,11 +111,11 @@ export default class Network {
             const newLayerNeurons: Neuron[] = newLayer.neurons;
 
             // Since we load network data, we now apply the data to the neurons from new layer
-            for (let neuronIndex = 0; neuronIndex < newLayerNeurons.length; neuronIndex++) {
-                const weightLength: number = newLayerNeurons[neuronIndex].weights.length;
+            for(const neuron of newLayerNeurons) {
+                const weightLength: number = neuron.weights.length;
 
                 for (let weightIndex = 0; weightIndex < weightLength; weightIndex++) {
-                    newLayerNeurons[neuronIndex].weights[weightIndex] = data.weights[selfInstanceWeightIndex];
+                    neuron.weights[weightIndex] = data.weights[selfInstanceWeightIndex];
 
                     selfInstanceWeightIndex++;
                 }
