@@ -7,17 +7,16 @@ import pkg from './package.json' assert { type: "json" };
 import terser from '@rollup/plugin-terser';
 
 const devMode = process.env.mode !== 'production';
-const name = "Neuroevolution";
 
 console.log("Mode: " + process.env.mode);
 
 export default {
     input: './src/index.ts',
     output: [{
-        file: pkg.unpkg,
-        format: 'umd',
-        sourcemap: devMode,
-        name: name
+        file: pkg.main,
+        name: "Neuroevolution",
+        format: 'es',
+        sourcemap: devMode
     }],
     treeshake: !devMode,
     plugins: [
@@ -34,7 +33,7 @@ export default {
         summary(),
         resolve({
             preferBuiltins: false,
-            // browser: true,
+            browser: false,
             extensions: ['.ts'],
         }),
     ]
