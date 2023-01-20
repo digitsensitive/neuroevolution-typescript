@@ -32,10 +32,8 @@
     "build:tsc": "tsc --declaration true --emitDeclarationOnly --declarationDir dist/declarations",
     "build:test": "tsc -p tsconfig.test.json",
     "prettier-format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "lint:tsc": "eslint -c .eslintrc.json ./src",
-    "lint:tsc:fix": "eslint -c .eslintrc.json ./src --fix",
-    "lint": "npm run lint:tsc",
-    "lint:fix": "npm run lint:tsc:fix"
+    "lint": "eslint -c .eslintrc.json ./src",
+    "lint:fix": "eslint -c .eslintrc.json ./src --fix"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",
