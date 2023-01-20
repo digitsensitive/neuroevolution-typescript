@@ -71,14 +71,64 @@ interface INeuroevolutionConfig {
 }
 ```
 
+## Recommended and Required Configurations
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES6", // Required. ES Module
+    "module": "ES6", // Required. ES Module
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules"
+    ],
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
+```
+
 ## Ressources
 
 [Deep Neuroevolution: Genetic Algorithms are a Competitive Alternative for
 Training Deep Neural Networks for Reinforcement Learning](https://arxiv.org/pdf/1712.06567.pdf)  
 
-## Changelog
+## Scripts
 
-[Learn about the latest improvements](https://github.com/digitsensitive/neuroevolution-typescript/blob/master/CHANGELOG.md)
+__Start development mode__
+
+`npm start`, `npm run dev`
+
+__Serve Ouput/dist folder__
+
+`npm run serve`
+
+Will serve [http://localhost:8080](http://localhost:8080)
+
+__Linting__
+
+`npm run lint` - Run lint
+
+`npm run lint:fix` - Run lint and fix lines that linter can fix
+
+__Test__
+
+You can directly run `npm test` without `npm run build:test`
+
+since `jest` will automatically compile `Typescript` to `JavaScript` 
+
+__Builds__
+
+- `npm run build` - Build all (except declarations and testing kit)
+- `npm run build:umd` - Build Browser Version. Output file 'neuroevolution.js'
+- `npm run build:node` - Build ES Node Module Version. Output file 'main.js'
+- `npm run build:tsc` - Build Declaration Files. Required for ES Node Modules
+
+__Formating__
+
+`npm run prettier-format` - Start formating code from `./src` and `./tests` using `Prettier`
 
 ## Contributing
 

@@ -1,6 +1,6 @@
 {
   "name": "neuroevolution-typescript",
-  "version": "0.0.9",
+  "version": "0.1.2",
   "description": "Neuroevolution library in TypeScript",
   "keywords": [
     "Neuroevolution",
@@ -29,13 +29,11 @@
     "build": "npm run build:umd && npm run build:node",
     "build:umd": "rollup -c --environment mode:production",
     "build:node": "rollup -c rollup.node.config.js --environment mode:production",
-    "build:tsc": "tsc --declaration true --emitDeclarationOnly --declarationDir dist/declarations", 
+    "build:tsc": "tsc --declaration true --emitDeclarationOnly --declarationDir dist/declarations",
     "build:test": "tsc -p tsconfig.test.json",
     "prettier-format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
-    "lint:tsc": "eslint -c .eslintrc.json ./src",
-    "lint:tsc:fix": "eslint -c .eslintrc.json ./src --fix",
-    "lint": "npm run lint:tsc",
-    "lint:fix": "npm run lint:tsc:fix"
+    "lint": "eslint -c .eslintrc.json ./src",
+    "lint:fix": "eslint -c .eslintrc.json ./src --fix"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.0",

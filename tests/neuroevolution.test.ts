@@ -87,6 +87,7 @@ test('Can initiate generations', () => {
 test('Can solve atleast 50%', () => {
     let errorRate = 100;
     while (errorRate > 50) {
+
         for (const gen of generations) {
             let winrate = 0;
 
@@ -101,6 +102,8 @@ test('Can solve atleast 50%', () => {
             errorRate = (winrate / trainingSet.length) * 100;
             Neuvol.networkScore(gen, 100 - errorRate);
         }
+
+        generations = Neuvol.nextGeneration();
     }
 
     expect(errorRate).toBeLessThanOrEqual(50);
