@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import summary from 'rollup-plugin-summary';
 import pkg from './package.json' assert { type: "json" };
+import terser from '@rollup/plugin-terser';
 
 const devMode = process.env.mode !== 'production';
 
@@ -14,11 +15,18 @@ export default {
     output: [{
         file: pkg.main,
         name: "Neuroevolution",
-        format: 'esm',
+        format: 'cjs',
         sourcemap: devMode
     }],
     treeshake: !devMode,
     plugins: [
+        !devMode && 
+            terser({
+                format: {
+                    comments: false
+                },
+                compress: false
+            }),
         typescript(),
         json(),
         commonjs(),
