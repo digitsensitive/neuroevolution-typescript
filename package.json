@@ -16,17 +16,21 @@
   },
   "license": "MIT",
   "author": "digitsensitive <digit.sensitivee@gmail.com>",
-  "main": "./dist/Neuroevolution.js",
-  "types": "./dist/declarations/index.d.ts",
-  "typings": "./dist/declarations/index.d.ts",
   "type": "module",
+  "main": "dist/main.js",
+  "unpkg": "dist/neuroevolution.js",
+  "types": "dist/declarations/index.d.ts",
+  "typings": "dist/declarations/index.d.ts",
   "scripts": {
     "test": "jest ./tests --config=jest.config.js",
-    "build:test": "tsc -p tsconfig.test.json",
-    "build": "rollup -c --environment mode:production",
-    "dev": "rollup -c --environment mode:development -w",
-    "dev:serve": "serve ./dist -n -L -p 8080",
     "start": "npm run dev",
+    "dev": "rollup -c --environment mode:development -w",
+    "serve": "serve ./dist -n -L -p 8080",
+    "build": "npm run build:umd && npm run build:node",
+    "build:umd": "rollup -c --environment mode:production",
+    "build:node": "rollup -c rollup.node.config.js --environment mode:production",
+    "build:tsc": "tsc --declaration true --emitDeclarationOnly --declarationDir dist/declarations", 
+    "build:test": "tsc -p tsconfig.test.json",
     "prettier-format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
     "lint:tsc": "eslint -c .eslintrc.json ./src",
     "lint:tsc:fix": "eslint -c .eslintrc.json ./src --fix",
@@ -55,10 +59,7 @@
     "typescript": "^4.9.4"
   },
   "files": [
-    "./dist/",
-    "./README.md",
-    "./LICENSE",
-    "./package.json"
+    "./dist/"
   ],
   "repository": {
     "type": "git",

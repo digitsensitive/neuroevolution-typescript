@@ -6,17 +6,16 @@ import summary from 'rollup-plugin-summary';
 import pkg from './package.json' assert { type: "json" };
 
 const devMode = process.env.mode !== 'production';
-const name = "Neuroevolution";
 
 console.log("Mode: " + process.env.mode);
 
 export default {
     input: './src/index.ts',
     output: [{
-        file: pkg.unpkg,
-        format: 'umd',
-        sourcemap: devMode,
-        name: name
+        file: pkg.main,
+        name: "Neuroevolution",
+        format: 'esm',
+        sourcemap: devMode
     }],
     treeshake: !devMode,
     plugins: [
@@ -26,7 +25,7 @@ export default {
         summary(),
         resolve({
             preferBuiltins: false,
-         //   browser: true,
+            browser: false,
             extensions: ['.ts'],
         }),
     ]
