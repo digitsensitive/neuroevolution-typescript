@@ -15,7 +15,7 @@ export default {
     output: [{
         file: pkg.main,
         name: "Neuroevolution",
-        format: 'cjs',
+        format: 'es',
         sourcemap: devMode
     }],
     treeshake: !devMode,
